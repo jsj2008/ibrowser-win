@@ -4,7 +4,7 @@
 
 \**********************************************************/
 #ifdef WIN32
-#include <afxdlgs.h>
+//#include <afxdlgs.h>
 #endif
 
 #include "JSObject.h"
@@ -19,11 +19,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+/*
 extern "C"{
 #include <curl/curl.h>
 #include <curl/easy.h>
 }
-
+*/
 #define RESULT_BUFF_SIZE 1024000
 #define CLIENT_LABEL "ibrowser"
 
@@ -123,14 +124,15 @@ void ibrowserAPI::clean()
     
 }
 
-FB::variant ibrowserAPI::setIdeviceEventCallback(const FB::JSObjectPtr& callback,F_ADD)
+FB::variant ibrowserAPI::setIdeviceEventCallback(const FB::JSObjectPtr& callback)
 {
+	/*
     Callback *cb = new Callback();
     cb->set("callback",callback);
     
     if(IDEVICE_E_SUCCESS != idevice_event_subscribe(&ibrowserAPI::ideviceEventCallback, (void *)cb))
-        ERRO("idevice_event_subscribe");
-    
+        ERRO("idevice_event_subscribe ");
+    */
     return true;
 }
 
@@ -142,7 +144,7 @@ void ibrowserAPI::ideviceEventCallback(const idevice_event_t *event, void *user_
         callback->InvokeAsync("", FB::variant_list_of( event->event ));
 }
 
-
+/*
 FB::variant ibrowserAPI::getDeviceInfo(const std::vector<std::string>& domains,F_ADD)
 {
     
@@ -223,9 +225,10 @@ FB::variant ibrowserAPI::getSbservicesIconPngdata(const std::string& bundleId,F_
 #ifdef WIN32
 FB::variant ibrowserAPI::openDialog(F_ADD)
 {
+	/*
     CFileDialog filedialog(TRUE,NULL,NULL,OFN_HIDEREADONLY,_T("IPA FILES(*.ipa)|*.ipa||"),NULL);
 filedialog.DoModal();
-    
+    /
     return false;
 }
 #else
@@ -484,7 +487,7 @@ FB::variant ibrowserAPI::downloadFile(const std::string& url,const std::string& 
     }else{
         ERRO("download error");
     }
-    */
+    /
     
     return true;
 }
@@ -544,6 +547,7 @@ int ibrowserAPI::downloadWrite(void *buffer, size_t size, size_t nmemb, void *st
     DownloadConfig *cfg=(DownloadConfig *)stream;
     return fwrite(buffer, size, nmemb, cfg->stream);
 }
+*/
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @fn FB::variant ibrowserAPI::echo(const FB::variant& msg)
@@ -576,24 +580,9 @@ ibrowserPtr ibrowserAPI::getPlugin()
     return plugin;
 }
 
-// Read/Write property testString
-std::string ibrowserAPI::get_testString()
-{
-    return m_testString;
-}
-
-void ibrowserAPI::set_testString(const std::string& val)
-{
-    m_testString = val;
-}
-
 // Read-only property version
 std::string ibrowserAPI::get_version()
 {
     return FBSTRING_PLUGIN_VERSION;
 }
 
-void ibrowserAPI::testEvent()
-{
-    fire_test();
-}

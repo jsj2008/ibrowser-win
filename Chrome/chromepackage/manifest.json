@@ -17,8 +17,7 @@
     ],
     "plugins":[
         {
-            "path":"ibrowser_x86_64.plugin",
-            "public":true
+            "path":"npibrowser.dll","public":true
         }
     ],
     "browser_action":{

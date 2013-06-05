@@ -14,14 +14,17 @@ $(function () {
         chrome.runtime.reload();
     });
 
+    
     plugin = document.getElementById("pluginId");
-
-    plugin.setIdeviceEventCallback(function (event) {
+    plugin.setideviceeventcallback(function (event) {
         log("setIdeviceEventCallback", event);
         if (event == 1) {
             deskNotify('一枚Iphone连接到了电脑!', '你可以使用ibrowser对其进行管理咯!');
         }
     });
+    
+    console.log(plugin.echo("jadsklfjaklsdjfdf"));
+    
 
     function download(info, filename) {
         info.status = 'downloading';

@@ -131,9 +131,9 @@ public:
     ibrowserAPI(const ibrowserPtr& plugin, const FB::BrowserHostPtr& host) :
         m_plugin(plugin), m_host(host) , uploadFileDir("/Downloads"), downloadThreads(10)
     {
+		registerMethod("setIdeviceEventCallback", make_method(this, &ibrowserAPI::setIdeviceEventCallback));
         registerMethod("echo",      make_method(this, &ibrowserAPI::echo));
-        registerMethod("testEvent", make_method(this, &ibrowserAPI::testEvent));
-        
+        /*
         registerMethod("getDeviceInfo", make_method(this, &ibrowserAPI::getDeviceInfo));
         registerMethod("getAppList",      make_method(this, &ibrowserAPI::getAppList));
         registerMethod("getSbservicesIconPngdata", make_method(this, &ibrowserAPI::getSbservicesIconPngdata));
@@ -141,14 +141,7 @@ public:
         registerMethod("uploadFile", make_method(this, &ibrowserAPI::uploadFile));
         registerMethod("installPackage", make_method(this, &ibrowserAPI::installPackage));
         registerMethod("uninstallPackage", make_method(this, &ibrowserAPI::uninstallPackage));
-        registerMethod("setIdeviceEventCallback", make_method(this, &ibrowserAPI::setIdeviceEventCallback));
-        registerMethod("downloadFile", make_method(this, &ibrowserAPI::downloadFile));
-        
-        // Read-write property
-        registerProperty("testString",
-                         make_property(this,
-                                       &ibrowserAPI::get_testString,
-                                       &ibrowserAPI::set_testString));
+        registerMethod("downloadFile", make_method(this, &ibrowserAPI::downloadFile));*/
         
         // Read-only property
         registerProperty("version",
@@ -171,17 +164,13 @@ public:
 
     ibrowserPtr getPlugin();
 
-    // Read/Write property ${PROPERTY.ident}
-    std::string get_testString();
-    void set_testString(const std::string& val);
-
     // Read-only property ${PROPERTY.ident}
     std::string get_version();
 
     // Method echo
     FB::variant echo(const FB::variant& msg);
     
-    
+    /*
     FB::variant getDeviceInfo(const std::vector<std::string>& domain,F_ADD);
     FB::variant getAppList(F_ADD);
     FB::variant getSbservicesIconPngdata(const std::string& bundleId,F_ADD);
@@ -189,12 +178,12 @@ public:
     FB::variant uploadFile(const std::string& fileName,const boost::optional<FB::JSObjectPtr>& pcb, F_ADD);
     FB::variant installPackage(const std::string& fileName,const boost::optional<FB::JSObjectPtr>& pcb, F_ADD);
     FB::variant uninstallPackage(const std::string& fileName,const boost::optional<FB::JSObjectPtr>& pcb, F_ADD);
-    FB::variant setIdeviceEventCallback(const FB::JSObjectPtr& callback,F_ADD);
     FB::variant downloadFile(const std::string& url,const std::string& filename,const boost::optional<FB::JSObjectPtr>& pcb, F_ADD);
     static void* downloadThread(void *data);
     static int downloadWrite(void *buffer, size_t size, size_t nmemb, void *stream);
     static int downloadProgress(void* ptr, double rDlTotal, double rDlNow, double rUlTotal, double rUlNow);
-    static void installCallback(const char *operation, plist_t status, void *user_data);
+    static void installCallback(const char *operation, plist_t status, void *user_data);*/
+    FB::variant setIdeviceEventCallback(const FB::JSObjectPtr& callback);
     static void ideviceEventCallback(const idevice_event_t *event, void *user_data);
     
     
@@ -202,14 +191,10 @@ public:
     FB_JSAPI_EVENT(test, 0, ());
     FB_JSAPI_EVENT(echo, 2, (const FB::variant&, const int));
 
-    // Method test-event
-    void testEvent();
-
 private:
     ibrowserWeakPtr m_plugin;
     FB::BrowserHostPtr m_host;
 
-    std::string m_testString;
     std::string uploadFileDir;
     unsigned int downloadThreads;
     
